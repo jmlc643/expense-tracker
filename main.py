@@ -1,5 +1,6 @@
 import argparse
 
+from utils.get_summary import summary
 from utils.list_expenses import list_expenses
 from utils.update_expense import update_expense
 from utils.verify_json_file import verify_json_file
@@ -33,6 +34,10 @@ update_parser.add_argument('--amount', help='Amount of the expense', type=float)
 delete_parser = subparsers.add_parser('delete', help='Delete an expense')
 delete_parser.add_argument('--id', help='ID of the expense to delete', type=int, required=True)
 
+# SUMMARY
+summary_parser = subparsers.add_parser('summary', help='Get a summary of expenses')
+summary_parser.add_argument('--month', help='Month to filter expenses (Number of Month)', type=int)
+
 args = parse.parse_args()
 
 if args.command == 'add':
@@ -46,3 +51,5 @@ if args.command == 'update':
     update_expense(args.id, args.description, args.amount, args.category)
 if args.command == 'delete':
     delete_expense(args.id)
+if args.command == 'summary':
+    summary(month=args.month)
