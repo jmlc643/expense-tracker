@@ -6,6 +6,7 @@ from utils.update_expense import update_expense
 from utils.verify_json_file import verify_json_file
 from utils.add_expense import add_expense
 from utils.delete_expense import delete_expense
+from utils.export_expense import export_to_csv
 
 verify_json_file("expenses.json")
 
@@ -38,6 +39,10 @@ delete_parser.add_argument('--id', help='ID of the expense to delete', type=int,
 summary_parser = subparsers.add_parser('summary', help='Get a summary of expenses')
 summary_parser.add_argument('--month', help='Month to filter expenses (Number of Month)', type=int)
 
+# EXPORT EXPENSES
+export_parser = subparsers.add_parser('export', help='Export expenses to a CSV file')
+export_parser.add_argument('--filename', help='Name of the CSV file to export to', type=str, required=True)
+
 args = parse.parse_args()
 
 if args.command == 'add':
@@ -53,3 +58,5 @@ if args.command == 'delete':
     delete_expense(args.id)
 if args.command == 'summary':
     summary(month=args.month)
+if args.command == 'export':
+    export_to_csv(args.filename)
