@@ -3,6 +3,7 @@ import argparse
 from utils.list_expenses import list_expenses
 from utils.verify_json_file import verify_json_file
 from utils.add_expense import add_expense
+from utils.delete_expense import delete_expense
 
 verify_json_file("expenses.json")
 
@@ -18,6 +19,9 @@ add_parser.add_argument('--amount', help='Amount of the expense', type=float, re
 list_parser = subparsers.add_parser('list', help='List all expenses')
 list_parser.add_argument('--category', help='Category of the expense', type=str)
 
+delete_parser = subparsers.add_parser('delete', help='Delete an expense')
+delete_parser.add_argument('--id', help='ID of the expense to delete', type=int, required=True)
+
 args = parse.parse_args()
 
 if args.command == 'add':
@@ -27,3 +31,5 @@ if args.command == 'list':
         list_expenses(category=args.category)
     else:
         list_expenses()
+if args.command == 'delete':
+    delete_expense(args.id)
