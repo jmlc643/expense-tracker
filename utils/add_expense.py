@@ -2,7 +2,7 @@ from utils.get_expenses import get_expenses
 import json
 from datetime import datetime
 
-def add_expense(description, amount):
+def add_expense(description, amount, category):
     expenses = get_expenses()
     
     if expenses == []:
@@ -12,14 +12,15 @@ def add_expense(description, amount):
         
     new_expense = {
         "id": id,
-        "date": datetime.now().isoformat(),
         "description": description,
-        "amount": amount
+        "amount": amount,
+        "category": category,
+        "date": datetime.now().isoformat(),
     }
     
     expenses.append(new_expense)
     
     with open("expenses.json", "w") as file:
         json.dump(expenses, file, indent=4)
-        
-    print(f"Expense added succesfully (ID: {id})")
+
+    print(f"Expense added successfully (ID: {id})")

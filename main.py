@@ -1,5 +1,6 @@
 import argparse
 
+from utils.list_expenses import list_expenses
 from utils.verify_json_file import verify_json_file
 from utils.add_expense import add_expense
 
@@ -9,12 +10,20 @@ parse = argparse.ArgumentParser(prog="Expense Tracker", description="A simple co
 
 subparsers = parse.add_subparsers(dest='command', help='Available commands')
 
-# Subcomando para agregar gastos
 add_parser = subparsers.add_parser('add', help='Add a new expense')
 add_parser.add_argument('--description', help='Description of the expense', type=str, required=True)
+add_parser.add_argument('--category', help='Category of the expense', type=str, required=True)
 add_parser.add_argument('--amount', help='Amount of the expense', type=float, required=True)
+
+list_parser = subparsers.add_parser('list', help='List all expenses')
+list_parser.add_argument('--category', help='Category of the expense', type=str)
 
 args = parse.parse_args()
 
 if args.command == 'add':
-    add_expense(args.description, args.amount)
+    add_expense(args.description, args.amount, args.category)
+if args.command == 'list':
+    if args.category:
+        list_expenses(category=args.category)
+    else:
+        list_expenses()
